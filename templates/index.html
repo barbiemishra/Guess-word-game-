@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Word</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f0edff;
+            padding: 50px 15px;
+        }
+
+        .game {
+            background: white;
+            max-width: 450px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px #00000015;
+        }
+
+        h1 { color: #6c5ce7; }
+
+        .word {
+            font-size: 32px;
+            letter-spacing: 8px;
+            margin: 30px 0;
+        }
+
+        input, button {
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+        }
+
+        input {
+            width: 130px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .message {
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .hint {
+            background: #fff8dc;
+            padding: 12px;
+            border-radius: 10px;
+            color: #755b00;
+            font-size: 15px;
+         }  
+    </style>
+</head>
+<body>
+    <div class="game">
+        <h1>GUESS THE WORD!</h1>
+
+        <p class="word">{{ display | join(" ") }}</p>
+        <p class="hint">💡 Hint: {{ hint }}</p>
+
+        <form method="POST">
+            <input
+                type="text"
+                name="letter"
+                maxlength="1"
+                placeholder="Enter a letter"
+                autocomplete="off"
+                required
+                {% if game_over %}disabled{% endif %}
+            >
+            <button type="submit" {% if game_over %}disabled{% endif %}>
+                Guess
+            </button>
+        </form>
+
+        <p class="message">{{ message }}</p>
+
+        <p>Wrong attempts remaining: {{ attempts }}</p>
+        <p>Incorrect guesses: {{ chance }}</p>
+
+        <p>
+            Guessed letters:
+            {{ guessed_letters | join(", ") if guessed_letters else "None" }}
+        </p>
+
+        <form method="POST">
+            <button type="submit" name="action" value="restart">
+                New Game
+            </button>
+        </form>
+    </div>
+</body>
+</html>
